@@ -1,0 +1,75 @@
+Before digging into the details of different image processing and analysis techniques, we'll need to get ourselves set up so that we can use both Matlab and OpenCV for investigating different topics.
+
+In this post, I'll go through the details of setting those up, and running quick tests to confirm that the setup was successful.
+
+A couple of notes:
+<ul>
+<li>In most cases I'll be building and running my code (and providing examples) on a machine running Windows Vista or Windows 7.</li>
+<li>For almost all of the C++ coding (and examples), I'll be using Visual Studio 2010 as my IDE.</li>
+</ul>
+
+As a result, the steps I describe in getting set up are in the context of Visual Studio 2010 and Windows Vista / 7.
+
+<h1>Matlab</h1>
+Matlab is the easier of the two tools to setup. It simply involves running an installer, then copying some code and images files and running a test program.
+
+After running the Matlab install, take the following steps to confirm that everything is set up and running correctly:
+
+<ol>
+<li>Start Matlab</li>
+<li>If the <i>Current Folder</i> browser isn't visible, display it using the <i>Desktop -&gt; Current Folder</i> menu item</li>
+<li>Right-click in the <i>Current Folder</i> browser and select the <i>Locate on Disk</i> menu item.  This will open a Windows Explorer window in the context of the current directory.</li>
+<li>Copy 'HelloWorld.jpg' into the current directory.</li>
+<li>If the <i>Command Window</i> isn't visible, display it using the <i>Desktop -&gt; Command Window</i> menu item</li>
+<li>Enter the following code into the Command Window:
+[sourcecode language="matlab"]
+
+I = imread('HelloWorld.jpg');
+imshow(I, []);
+
+[/sourcecode]
+</li>
+</ol>
+
+After doing this, you should be presented with a new window displaying the HelloWorld image.
+
+<h1>OpenCV</h1>
+Getting OpenCV integrated with Visual Studio 2010 takes a little more work, but once it's in place, it doesn't require much more effort than Matlab.
+
+First, download and run the OpenCV binary install from the following URL.
+
+Next, open Visual studio 2010 and create a new empty C++ project.
+
+Open the project properties, and set the following properties.
+
+Include directories: {open cv install location}\include
+Library directories: {open cv install location}\lib
+
+Add the following library files to be included with the link command.  (Use Configuration Properties -&gt; Linker -&gt; Input, and add the following to 'Additional Dependencies'):
+opencv_core220d.lib
+opencv_highgui220d.lib
+
+
+
+...
+
+Now, to verify that the setup is working correctly, enter the following code into a new CPP file, copy the image to the correct location, and run the code:
+
+[sourcecode language="cpp"]
+#include "opencv2/opencv.hpp"
+
+int main(int argc, char** argv)
+{
+    const char* IMAGE_NAME = "Hello World";
+    IplImage *image = cvLoadImage("HelloWorld.jpg");
+    cvNamedWindow(IMAGE_NAME ,1);
+    cvShowImage(IMAGE_NAME, image);
+
+    cvWaitKey();
+    cvDestroyWindow(IMAGE_NAME);
+    cvReleaseImage(&image);
+
+    return 0;
+}
+
+[/sourcecode]
