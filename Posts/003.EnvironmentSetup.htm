@@ -5,7 +5,7 @@ In this post, I'll go through the details of setting those up, and running quick
 A couple of notes:
 <ul>
 <li>In most cases I'll be building and running my code (and providing examples) on a machine running Windows Vista or Windows 7.</li>
-<li>For almost all of the C++ coding (and examples), I'll be using Visual Studio 2010 as my IDE.</li>
+<li>For almost all of the C++ code examples, I'll be using Visual Studio 2010 as my IDE.</li>
 </ul>
 
 As a result, the steps I describe in getting set up are in the context of Visual Studio 2010 and Windows Vista / 7.
@@ -17,21 +17,23 @@ After running the Matlab install, take the following steps to confirm that every
 
 <ol>
 <li>Start Matlab</li>
-<li>If the <i>Current Folder</i> browser isn't visible, display it using the <i>Desktop -&gt; Current Folder</i> menu item</li>
-<li>Right-click in the <i>Current Folder</i> browser and select the <i>Locate on Disk</i> menu item.  This will open a Windows Explorer window in the context of the current directory.</li>
-<li>Copy 'HelloWorld.jpg' into the current directory.</li>
-<li>If the <i>Command Window</i> isn't visible, display it using the <i>Desktop -&gt; Command Window</i> menu item</li>
-<li>Enter the following code into the Command Window:
+<li>If the <em>Command Window</em> isn't visible, display it using the <em>Desktop -&gt; Command Window</em> menu item</li>
+<li>Enter the following code into the command window:
 [sourcecode language="matlab"]
-
-I = imread('HelloWorld.jpg');
-imshow(I, []);
-
+	% open windows explorer in the current working directory
+	dos(['explorer.exe "' pwd '" &'])
+[/sourcecode]
+<li>Copy <a href="http://rickhaffey.files.wordpress.com/2011/06/matlab.jpg">Matlab.jpg</a> into the current working directory.</li>
+<li>Enter the following code into the command window:
+[sourcecode language="matlab"]
+ 	% load and display the image
+	I = imread('Matlab.jpg');
+	imshow(I, []);
 [/sourcecode]
 </li>
 </ol>
 
-After doing this, you should be presented with a new window displaying the HelloWorld image.
+At this point, you should see a new Matlab window showing the Matlab.jpg image.
 
 <h1>OpenCV</h1>
 Getting OpenCV integrated with Visual Studio 2010 takes a little more work, but once it's in place, it doesn't require much more effort than Matlab.

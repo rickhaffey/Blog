@@ -1,26 +1,25 @@
-<p>Before getting started along our path, I'd like to spend a little time getting <i>familiar</i> with the path, by taking a high level look at the landscape and where we're headed.</p>
+<p>Studying <strong>computer vision</strong> requires investigating and learning about a wide range of topics.  And to <em>truly</em> understand it requires a willingness to look at those topics in some depth.  Before getting moving, I'd like to spend a little time <strong>getting familiar with the path</strong>, by taking a high level look at the landscape ahead.</p>
 
-<p>Computer vision is both broad and deep.  It covers a lot of topics, and there is a lot of depth that can be pursued within those topics.  Informally, you could think of it as the third step in a larger, three step process.  The breakout goes something like this:
+<p>Informally, you could think of computer vision as being the third step of a larger, three step process.  The sequence of steps is as follows:
 
 <ul>
-  <li>The first step, <i><b>image processing</b></i>, involves starting with a digital image, and transforming this image into a second, output image.  The intent of image processing is typically to improve the quality of an image, as a prerequisite of using the image in a later step.  One example of image processing would be noise reduction and smoothing prior to performing edge detection on an image.
+  <li><strong>Image Processing</strong>, the first step in the process, involves taking a digital image as input, and transforming the image into a second, output image.  The intent of this stage is typically to improve image quality, as a prerequisite to some later step in the process.  An example would be carrying out noise reduction and smoothing of an image prior to performing some follow-up image analysis process.
   </li>
-  <li>The second step, <i><b>image analysis</b></i>, typically involves starting with a digital image (typically the result of some preliminary image processing), and generating data about the content of the image.  An example would be a process that collects endpoint coordinates for all horizontal and vertical lines in an image.
+  <li><strong>Image Analysis</strong>, the second step, involves taking a digital image as input (typically the result of some preliminary image processing step), and generating some set of data about the image.  An example would be a process that collects endpoint coordinates for all the horizontal and vertical lines in an image, to be used in a follow-up object recognition stage.
   </li>
-  <li><i><b>Computer Vision</b></i>:  The third stage in our process.  This typically involves taking the data generated as the result of image analysis, and converting that into 'information' that can be used by some other process to perform an activity.  An example might be a process that determines whether or not a person is present in an image, and uses this as part of a pedestrian avoidance system built into an automobile.
+  <li><strong>Computer Vision</strong>, as mentioned above, is the third step of our process.  This typically involves taking the data generated through image analysis, and converting that into information that can be used by some other process to perform an activity.  One example might be a process that determines whether or not a human is present in an image, and uses this as part of a pedestrian avoidance system built into an automobile.
   </li>
 </ul>
 </p>
 
-<p>Keep in mind that these boundaries are fairly fuzzy, and the distinction is somewhat arbitrary.  From start to finish, everything we work with in the process is 'data', even the original source image used as input is just an ordered collection of bits.  And sometimes the 'data' generated as part of image analysis can be viewed as an image.  As an example, (an image analysis activity) often involves generating a binary output image that has pixels set where an edge was located, and not set where they weren't.  The takeway is that at each step in the process, the 'semantic usefulness' and informational complexity of the output tends to increase.
+<p>One thing to keep in mind is that the <strong>boundaries between these stages are somewhat fuzzy or arbitrary</strong>.  From start to finish, everything we work with in the process is data -- even the original source image used as input to the image processing stage is just an ordered collection of bits.  Sometimes the data generated as part of the image analysis stage can be viewed as an image.  As an example, edge detection (an image analysis activity) often involves generating a binary output image that has pixels set anywhere an edge was located.  The key point to remember is that each step in the process has a tendency to <strong>increase the semantic usefulness and complexity of information</strong> related to a given image.
 </p>
 
 <p>
-We'll use this high-level breakdown as a overarching guide for our path.  Below is a summary breaking things down at a slightly lower level.  My plan is to use these entries as post categories as we work through the process.
+I'll be using the high-level structure above as a sort of 'view from 10,000 feet' of our path ahead.  If we drop down a little closer to the actual terrain, we come up with a summary breaking things down at a slightly lower level. I've given the summary below, and I'll be using this as a source of post categories as we work through the process:
 
 <ul>
-  <li>
-	Preliminaries
+  <li>Preliminaries
 	<ul>
 	  <li>Intro</li>
 	  <li>Computer Vision Overview / Series Summary</li>
@@ -28,9 +27,7 @@ We'll use this high-level breakdown as a overarching guide for our path.  Below 
 	  <li>Read / Display / Write Images</li>
 	</ul>
   </li>
-
-  <li>
-	Image Processing
+  <li>Image Processing
 	<ul>
 	  <li>Intensity Transforms</li>
 	  <li>Histogram Processing</li>
@@ -40,23 +37,18 @@ We'll use this high-level breakdown as a overarching guide for our path.  Below 
 	  <li>Morphological Transforms</li>
 	  <li>Color Processing</li>
 	  <li>Frequency Domain</li>
-	  <li>Revisit of prior Concepts for Frequency Domain</li>
 	  <li>Wavelets</li>
 	  <li>Image Registration</li>
 	</ul>
   </li>
-
-  <li>
-	Image Analysis
+  <li>Image Analysis
 	<ul>
 	  <li>Feature Detection</li>
 	  <li>Segmentation</li>
 	  <li>Representation / Descriptors</li>
 	</ul>
   </li>
-
-  <li>
-	Computer Vision
+  <li>Computer Vision
 	<ul>
 	  <li>Object Detection</li>
 	  <li>Object Recognition</li>
@@ -65,3 +57,5 @@ We'll use this high-level breakdown as a overarching guide for our path.  Below 
   </li>
 </ul>
 </p>
+
+<p>In my next post, I'll focus on what we need to do to get our main vehicles (Matlab and OpenCV) prepared and tuned for the trip ahead.</p>
