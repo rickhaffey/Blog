@@ -1,0 +1,75 @@
+Let's say you have an image with a lot of smaller, light details against a large dark background:
+
+[image]
+[possibilities: astro img (constellation), night or dusk scene, other?]
+
+If the image is intended for human evaluation, it's often easier from a perceptual standpoint to view smaller dark objects against a lighter background. To support this, you could generate the negative of an image, and display that for evaluation.
+
+this leads us into our fist usage of spatial processing.
+
+One way to think of a digital image is as a function $latex f(x,y)$ , where $latex (x,y) $ are the coordinates of a given point in the image, and the value mapped by the function is the intensity value of the image at that point.
+
+A spatial filter can be thought of as an operation applied to this image function.  It is an operation on the image over a neighborhood around point $latex (x,y) $ .
+
+The neighborhood around point (x,y) is usually:
+<ul>
+<li>square,</li>
+<li>with the length of each size an odd number of pixels (3, 5, 7, etc.), and</li>
+<li>centered at (x,y).</li>
+</ul>
+
+Informally, you can think of it as a filter or window sliding over every pixel of the source image (left-to-right, top-to-bottom), calculating the result of the operation at that pixel, placing the result at the location in the output image, and moving to the next pixel.
+
+At the borders of the image, if the window extends outside the image, padding is applied to the outside of the image so as to resolve the overlap.  Depending on the goal of the processing, the padding could be '0' values, duplicate values from the nearest border pixel, or some other custom value.
+
+The <i>simplest</i> type of spatial filtering is the case where the filter applied to an image has dimensions of 1 pixel x 1 pixel.  This type of filtering is called <i>point processing</i> or <i>intensity transformation</i>, and 
+
+We can generate the negative of an image by using a simple 1x1 filter where the operation applied at each pixel is:
+
+$latex px_{result}(x,y) = px_{max} - 1 - px_{source}(x,y) $
+
+where $latex px_{result}(x,y) $ is the resulting intensity value at each location, $latex px_{max} $ is the maximum pixel intensity value, and $latex px_{source}(x,y)$ is the input pixel value.
+
+In Matlab, one way to implement this is to use the <b>imadjust</b> function, which takes the following format:
+
+g = imadjust(f, [low_in high_in], [low_out high_out], gamma);
+
+where f is the input image, low_in and high_in are the 
+...
+
+g = imcomplement
+
+[low high] = stretchlim(f)
+
+stretchlim(f, [low_frac high_frac])
+
+g = c * log(1 + f)
+-- requires datatype conversion:
+-- double
+-- mat2gray
+-- im2unit8
+
+Contrast Stretching:
+
+g = 1 ./(1 + (m./f). ^ E)
+m = mid-point
+f = source image
+E = slope factor
+
+Log
+- px_result = c * log(1 + px_source)
+c = const
+r &gt;= 0
+- boosts low range of image and attenuates higher values
+- use: display DFT spectrum
+
+Power-law (gamma)
+
+px_result = c * (px_source) ^ gamma
+c and gamma are positive constants
+
+if gamma = 1 -&gt; identity
+if gamma &gt; 1 -&gt; boosts high intensities / suppresses lower ones
+if gamma  boosts low intensities ...
+
+todo: rev engineer M-functions in Ch. 3

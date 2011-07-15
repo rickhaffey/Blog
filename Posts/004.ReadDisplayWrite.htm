@@ -1,0 +1,140 @@
+Now that [our environment is set up], we'll take a little time to look at some basic techniques needed for almost all image processing tasks: reading an image from a file on disk, displaying the image, and writing the image back to disk (maybe to save the results of some image processing, or to store it in a different format, etc.).
+
+<h1>Matlab</h1>
+
+To <strong>read an image file in Matlab</strong>, we'll use the <code><strong>imread</strong></code> function.  The most basic version of this function takes a filename as its only argument, and returns an array representing the image read from the file:
+
+[sourcecode language="matlab"]
+	% read image from file
+	I = imread('myimage.jpg');
+[/sourcecode]
+
+The data type and class of the output array, <code><strong>I</strong></code>, are driven by details of the image data contained in the file. (We'll have more to say about this in future posts...)
+
+The <strong>semicolon</strong> at the end of the statement above is optional. If it's left out, Matlab will display the result of evaluating the statement (in this case, the entire image array's contents) in the output of the command window. Adding the semicolon at the end of a statement in Matlab suppresses this behavior.
+
+Now that we have a representation of our image that we can work with, we'll want to <strong>display it on-screen</strong> using the following function call:
+
+[sourcecode language="matlab"]
+	% display image
+	imshow(I);
+[/sourcecode]
+
+Matlab automatically creates a window (referred to as a <em>figure</em> in Matlab) or uses the current figure if one is already open, displaying the image contained in the array <code><strong>I</strong></code>. If we want to have more control over the actual creation and management of the figure, we can explicitly create one ourselves (and hold a reference to it):
+
+[sourcecode language="matlab"]
+	% create a new figure (which will implicitly make it the current figure), and display our image
+	F = figure;
+	imshow(I);
+[/sourcecode]
+
+This extra step gives us the ability to control which images are displayed in which figures, and to modify, display, and close figures as needed.  As an example, later in our processing, we might want to <strong>close the figure</strong> displaying our image above:
+
+[sourcecode language="matlab"]
+	% close our figure
+	close(F);
+[/sourcecode]
+
+After doing some processing of our image, we may have a need to <strong>save it back to disk</strong>, either in the same format as the original, or using a new format. To do this, we use the <code><strong>imwrite</strong></code> function.
+
+For example, if we want to convert the image from JPEG to PNG, we would call <code><strong>imwrite</strong></code> with a filename that has a '.png' extension:
+
+[sourcecode language="matlab"]
+	% write the image to disk in PNG format
+	imwrite('myimage.png');
+[/sourcecode]
+
+Here's our entire Matlab example in a single code block:
+
+[sourcecode language="matlab"]
+	% read the image from disk
+	I = imread('myimage.jpg');
+
+	% create a new figure and display the image
+	F = figure;
+	imshow(I);
+
+	% do some work here ...
+
+	% when we're done, write the image to disk in PNG format
+	imwrite('myimage.png');
+
+	% close the figure
+	close(F);
+[/sourcecode]
+
+<h1>OpenCV</h1>
+
+The steps to perform the same activities in OpenCV are very similar.  To read an image from disk, we use the <code><strong>cv::imread</strong></code> function:
+
+[sourcecode language="cpp"]
+	// read image from file
+	cv::Mat image = cv::imread("myimage.jpg");
+
+	if(!image.data)
+	{
+		// perform error handling or throw exception...
+	}
+
+[/sourcecode]
+
+In the example above, the output of the function is of type <code><strong>cv::Mat</strong></code>.  This is one of the core types we'll be using within OpenCV when working with images.  For now, just note that it is a class representing the array of data contained in an image. In future posts, we'll spend time looking at more of the details of the <code><strong>cv::Mat</strong></code> class.
+
+Whereas Matlab generates errors if problems are encountered while reading an image (e.g. if the file can't be found or opened, or if the data in the file is invalid, etc.), this <em>isn't</em> always the case in OpenCV.  As a result, it's a good idea to include a check of the <code><strong>cv::Mat::data</strong></code> field immediately after the call to <code><strong>cv::imread</strong></code>, to verify that everything went well, and to handle cases where it didn't.
+
+To display the image, we need to first create a window then show the image in the window.  For this, we use the <code><strong>cv::namedWindow</strong></code> and <code><strong>cv::imshow</strong></code> functions:
+
+[sourcecode language="cpp"]
+	// display the image and block
+	cv::namedWindow("myimage");
+	cv::imshow("myimage", image);
+[/sourcecode]
+
+The string <code><strong>"myimage"</strong></code> in the two lines of code above is the name of the window to be created.  It's used both in the caption of the displayed window, and as way of identifying the window in function calls (as demonstrated in the call to <code><strong>cv::imshow</strong></code> above.)
+
+To close a window, we can call the <code><strong>cv::destroyWindow</strong></code> function with the identifier of our window:
+
+[sourcecode language="cpp"]
+	// close the window
+	cv::destroyWindow("myimage");
+[/sourcecode]
+
+As a last step, if we want to write the image back to disk (as above, converting from JPEG to PNG), we simply make a call to <code><strong>cv::imwrite</strong></code>:
+
+[sourcecode language="cpp"]
+	// write the image back to disk in a different format
+	cv::imwrite("image.png", image);
+[/sourcecode]
+
+
+Finally, here's a re-cap of the full OpenCV code block:
+
+
+[sourcecode language="cpp"]
+	// read image from file on disk, and check to make sure it loaded
+	const char* filepath = "C:\\Work\\Blog\\Images\\Posts\\2163665909_c94ec001eb_z.jpg";
+	cv::Mat image = cv::imread(filepath);
+
+	if(!image.data)
+	{
+		cout << "unable to load image from file: '" << filepath << "'." << endl;
+		return -1;
+	}
+
+	// display the image and block until the user presses a key
+	cv::namedWindow(filepath);
+	cv::imshow(filepath, image);
+	cv::waitKey(0);
+
+	// close the window
+	cv::destroyWindow(filepath);
+
+	// write the image back to disk in a different format
+	cv::imwrite("image.png", image);
+
+	return 0;
+
+[/sourcecode]
+
+
+In my next post, we'll spend some time looking at our first true image processing task: generating an image negative. 
